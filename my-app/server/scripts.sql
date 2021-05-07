@@ -1,28 +1,21 @@
-CREATE DATABASE bank_account;
 
--- \c bank_account;
+var sqlcommand = `
+create database bank_account
 
-CREATE TABLE  IF NOT EXISTS customers(
-  `userid` BIGINT AUTO_INCREMENT  PRIMARY KEY NOT NULL,
-  `first_name` VARCHAR(32) NOT NULL,
-  `last_name` VARCHAR(32) NOT NULL,
-  `email` VARCHAR(32) NOT NULL UNIQUE,
-  `password` VARCHAR(255) NOT NULL
-);
+CREATE TABLE customers (
+ userid BIGINT(255) NOT NULL PRIMARY KEY,
+ first_name VARCHAR(32) NOT NULL,
+ last_name VARCHAR(32) NOT NULL,
+ email VARCHAR(32) NOT NULL UNIQUE KEY,
+ password VARCHAR(255) NOT NULL
+)
 
-CREATE TABLE IF NOT EXISTS TOKENS(
-  `id` BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  `access_token` VARCHAR(500) NOT NULL,
-  `userid` BIGINT AUTO_INCREMENT NOT NULL,
-  FOREIGN KEY(userid) REFERENCES customers(userid)
-);
-
-CREATE TABLE TOKENS(
-  id BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+CREATE TABLE tokens(
+  id BIGINT NOT NULL PRIMARY KEY,
   access_token VARCHAR(500) NOT NULL,
-  userid BIGINT UNIQUE NOT NULL,
+  userid BIGINT(255) NOT NULL,
+  CONSTRAINT userid_fk
   FOREIGN KEY(userid) REFERENCES customers(userid)
-);
-
-
+)
+`
 

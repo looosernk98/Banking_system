@@ -1,27 +1,32 @@
-var mysql = require('mysql');
+const mysql = require('mysql');
 
-var pool = mysql.createPool({
-  user     : 'root',
-  password : '12345NR',
-  host     : 'localhost',
-  port     :  3000,
-  database : 'bank_account'
+const con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "12345NR",
+  multipleStatements: true, // this allow you to run multiple queries at once.
 });
- 
-// connection.connect(function(err) {
-//     if (err) {
-//       console.error('error connecting: ' + err.stack);
-//       return;
-//     }
-   
-//     console.log('connected as id ' + connection.threadId);
-//   });
- 
-// connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-//   if (error) throw error;
-//   console.log('The solution is: ', results[0].solution);
-// });
- 
-// connection.end();
 
-module.exports={pool}
+var sqlCommand = `
+create database test;
+
+use test;
+
+CREATE TABLE users (
+  id int(11) NOT NULL auto_increment,
+  name varchar(100) NOT NULL,
+  age int(3) NOT NULL,
+  email varchar(100) NOT NULL,
+  PRIMARY KEY (id)
+);
+`
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected yet no db is selected yet!");
+  con.query(sqlCommand, function (err, result) {
+    if (err) throw err;
+    console.log("Database created");
+  })
+});
+
+module.exports={con};
