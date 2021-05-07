@@ -1,4 +1,5 @@
 
+
 var sqlcommand = `
 create database bank_account
 
